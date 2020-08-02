@@ -1,0 +1,16 @@
+
+Grammar:
+expr -> integer | booleanExpr | variable | '(' expr ')'
+booleanExpr -> boolean |
+               '(' booleanExpr ')' |
+               booleanConst space relationalOp space expr space [logicalOp booleanExpr] |
+               booleanVariable space relationalOp space expr space [logicalOp booleanExpr]
+relationalOp -> >= | > | <= | < | == | !=
+booleanConst -> true$ | false$
+variable -> letter string[.string]
+string -> alphanumeric[string]
+alphanumeric -> letter | digit
+integer -> digit[integer]
+letter -> a-z | $
+digit -> 0-9 | $
+space -> [ \t\n]+
