@@ -7,7 +7,7 @@ booleanExpr -> boolean |
                booleanVariable space relationalOp space expr space [logicalOp booleanExpr]
 relationalOp -> >= | > | <= | < | == | !=
 booleanConst -> true$ | false$
-variable -> letter string[.string]
+variable -> letter [string] [.variable]
 string -> alphanumeric[string]
 alphanumeric -> letter | digit
 integer -> digit[integer]

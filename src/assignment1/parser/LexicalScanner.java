@@ -38,7 +38,7 @@ public class LexicalScanner {
                 token = new Token(getInteger());
             }
             else if(currentChar == '"') {
-                token = new Token(getString());
+                token = new Token(getStringConstant());
 
             } else if(Character.isLetter(currentChar)) {
                 token = new Token(getVariableOrKeyword());
@@ -58,6 +58,28 @@ public class LexicalScanner {
                 } else
                     token = new Token(">");
                 nextPosition();
+
+            } else if(currentChar == '<') {
+                if(isNextString("<=")) {
+                    token = new Token("<=");
+                    nextPosition();
+                } else
+                    token = new Token("<");
+                nextPosition();
+
+            } else if(currentChar == '=') {
+                if(isNextString("==")) {
+                    token = new Token("==");
+                    nextPosition(2);
+                } else
+                    throw new SyntaxException(String.format("Invalid character '%c' found encountered", currentChar), currentPos);
+
+            } else if(currentChar == '!') {
+                if(isNextString("!=")) {
+                    token = new Token("!=");
+                    nextPosition(2);
+                } else
+                    throw new SyntaxException(String.format("Invalid character '%c' found encountered", currentChar), currentPos);
 
             } else if(isParenthesis(currentChar))
                 token = new Token(getSpecialChar());
@@ -80,7 +102,7 @@ public class LexicalScanner {
      * Returns a string constant in double quotes
      * @return
      */
-    private String getString() {
+    private String getStringConstant() {
 
         StringBuilder stringConstant = new StringBuilder();
         nextPosition();
@@ -106,13 +128,26 @@ public class LexicalScanner {
         StringBuilder builder = new StringBuilder();
         builder.append(getLetter());
 
-        if(getChar() == '.') {
-            builder.append(getChar());
-            nextPosition();
-            builder.append(getVariableOrKeyword());
+        if(Character.isLetterOrDigit(getChar()))
+            builder.append(getAlphaNumericString());
 
-        } else if(Character.isLetterOrDigit(getChar()))
+        if(getChar() == '.') {
+            builder.append(getAndNext());
             builder.append(getVariableOrKeyword());
+        }
+
+        return builder.toString();
+    }
+
+    private String getAlphaNumericString() {
+
+        StringBuilder builder = new StringBuilder();
+        if(!Character.isLetterOrDigit(getChar()))
+            throw new SyntaxException("Letter or digit was expected", currentPos);
+        builder.append(getAndNext());
+
+        if(Character.isLetterOrDigit(getChar()))
+            builder.append(getAlphaNumericString());
 
         return builder.toString();
     }
