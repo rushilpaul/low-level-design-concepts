@@ -13,7 +13,7 @@ public class FeatureGate {
         LexicalScanner lexicalScanner = new LexicalScanner(conditionalExpr);
         List<Token> tokenList = lexicalScanner.tokenize();
         for(Object token : tokenList) {
-            System.out.println(token);
+            System.out.print(token + " ");
         }
         return false;
     }

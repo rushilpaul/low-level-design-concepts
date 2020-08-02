@@ -1,5 +1,7 @@
 package assignment1.parser;
 
+import assignment1.parser.exceptions.SyntaxException;
+
 import java.util.ArrayList;
 import java.util.List;
 

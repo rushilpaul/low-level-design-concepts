@@ -11,4 +11,10 @@ public class Token {
     public Object getValue() {
         return value;
     }
+
+    public String toString() {
+        if(value == null)
+            return null;
+        return value.toString();
+    }
 }
