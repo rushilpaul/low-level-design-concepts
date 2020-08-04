@@ -1,5 +1,6 @@
 package assignment1.parser.lexical;
 
+import assignment1.parser.exceptions.InvalidCharacterException;
 import assignment1.parser.exceptions.SyntaxException;
 
 import java.util.ArrayList;
@@ -68,14 +69,14 @@ public class LexicalScanner {
                     token = new Token("==", EQUALS);
                     nextPosition(2);
                 } else
-                    throw new SyntaxException(String.format("Invalid character '%c' encountered", currentChar), currentPos);
+                    throw new InvalidCharacterException(currentChar, currentPos);
 
             } else if(currentChar == '!') {
                 if(isNextString("!=")) {
                     token = new Token("!=", NOT_EQUALS);
                     nextPosition(2);
                 } else
-                    throw new SyntaxException(String.format("Invalid character '%c' encountered", currentChar), currentPos);
+                    throw new InvalidCharacterException(currentChar, currentPos);
 
             } else if(isParenthesis(currentChar)) {
                 token = new Token(currentChar, currentChar == '(' ? PARENTHESIS_OPEN : PARENTHESIS_CLOSE);
@@ -87,7 +88,7 @@ public class LexicalScanner {
                 nextPosition();
 
             } else
-                throw new SyntaxException(String.format("Invalid character '%c' encountered", currentChar), currentPos);
+                throw new InvalidCharacterException(currentChar, currentPos);
             tokens.add(token);
         }
         return tokens;
