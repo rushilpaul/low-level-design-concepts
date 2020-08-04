@@ -9,7 +9,8 @@ public class Client {
 
         FeatureGate featureGate = new FeatureGate();
 
-        String condition = "(age >= 20 and location.country == \"India\") or (true == true)";
+//        String condition = "(age > true and location.country == \"India\") or (true == true)";
+        String condition = "age === true";
         Map<String, Object> attributeMap = new HashMap<>();
         fillMap(attributeMap);
 

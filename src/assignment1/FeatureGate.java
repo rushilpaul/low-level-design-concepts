@@ -19,7 +19,7 @@ public class FeatureGate {
 
     }
 
-    public boolean isAllowed(String conditionalExpr, String featureName, Map<String, Object> userAttributes) throws Exception {
+    public boolean isAllowed(String conditionalExpr, String featureName, Map<String, Object> userAttributes) {
 
         LexicalScanner lexicalScanner = new LexicalScanner(conditionalExpr);
         List<Token> tokenList = lexicalScanner.tokenize();
@@ -29,7 +29,13 @@ public class FeatureGate {
         AttributeExtractor attributeExtractor = new AttributeExtractor(userAttributes);
         LanguageEvaluator parser = new LanguageEvaluator(tokenList, tokenDetectionStrategy, attributeExtractor);
 
-        Operand result = parser.evaluate();
+        Operand result;
+        try {
+            result = parser.evaluate();
+        } catch (Exception ex) {
+            System.err.println("Evaluation error: " + ex.getMessage());
+            return false;
+        }
         if(result.getDataType() != DataType.BOOLEAN)
             System.out.println("WARN: Evaluation result is of type " + result.getDataType());
         else

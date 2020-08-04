@@ -4,7 +4,7 @@ Grammar:
 expr -> compositeBooleanExpr $
 compositeBooleanExpr -> simpleBooleanExpr (logicalOp simpleBooleanExpr) *
 
-simpleBooleanExpr -> term relationalOp term
+simpleBooleanExpr -> term [relationalOp term]
 
 term -> booleanConst | integer | variable | stringConst | betweenOp | '(' compositeBooleanExpr ')'
 
@@ -28,4 +28,4 @@ Examples:
 (a != b) and c == true
 a == between(x,a,b)
 
-age >= 25 AND (...)
+(age >= 25 and (location.city == "India"))

@@ -62,12 +62,15 @@ public class LanguageEvaluator {
     public Operand simpleBooleanExpr() throws InvalidKeyException, UnsupportedDataTypeException {
 
         Operand leftTerm = term();
-        RelationalOperator relationalOperator = relationalOperator();
-        Operand rightTerm = term();
+        if(tokenDetectionStrategy.isRelationalOperator(getToken())) {
 
-        relationalOperator.addOperand(leftTerm);
-        relationalOperator.addOperand(rightTerm);
-        return relationalOperator.evaluate();
+            RelationalOperator relationalOperator = relationalOperator();
+            Operand rightTerm = term();
+            relationalOperator.addOperand(leftTerm);
+            relationalOperator.addOperand(rightTerm);
+            return relationalOperator.evaluate();
+        }
+        return leftTerm;
     }
 
     public Operand term() throws InvalidKeyException, UnsupportedDataTypeException {

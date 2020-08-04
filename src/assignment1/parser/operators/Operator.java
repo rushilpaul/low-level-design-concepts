@@ -1,5 +1,7 @@
 package assignment1.parser.operators;
 
+import assignment1.parser.exceptions.EvaluationException;
+import assignment1.parser.exceptions.SyntaxException;
 import assignment1.parser.operands.Expression;
 import assignment1.parser.operands.Operand;
 
@@ -25,8 +27,7 @@ public abstract class Operator implements Expression {
 
         checkNumberOfOperands();
         if(!canOperate()) {
-            System.out.println("Can't operate on the operands: " + operands);
-            return null;
+            throw new EvaluationException("Can't operate on the operands: " + operands);
         }
         return compute();
     }
