@@ -1,4 +1,4 @@
-package assignment1.parser;
+package assignment1.parser.operands;
 
 public enum DataType {
 

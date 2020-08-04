@@ -1,31 +1,35 @@
 package assignment1.parser.operands;
 
-import assignment1.parser.DataType;
-
 public class BooleanOp extends Operand {
 
-    public BooleanOp() {
+    public static BooleanOp TRUE = BooleanOp.of(true);
+
+    public static BooleanOp FALSE = BooleanOp.of(false);
+
+    public static BooleanOp of(Operand value) {
+        if(value.getDataType() != DataType.BOOLEAN)
+            throw new IllegalArgumentException("Operand is not a boolean!");
+        return (BooleanOp) value;
     }
 
-    public BooleanOp(Boolean value) {
-        super(value);
+    public static BooleanOp of(String value) {
+        if(!value.equals("true") && !value.equals("false"))
+            throw new IllegalArgumentException("String " + value + " is not a valid boolean constant!");
+        return of(Boolean.valueOf(value));
     }
 
-    public static BooleanOp of(boolean value) {
-        return new BooleanOp(Boolean.valueOf(value));
+    public static BooleanOp of(Boolean value) {
+        BooleanOp booleanOp = new BooleanOp();
+        booleanOp.setValue(value);
+        return booleanOp;
     }
 
-    public static BooleanOp TRUE() {
-        return new BooleanOp(Boolean.TRUE);
-    }
-
-    public static BooleanOp FALSE() {
-        return new BooleanOp(Boolean.FALSE);
+    public Boolean getBasicValue() {
+        return (Boolean) getValue();
     }
 
     @Override
     public DataType getDataType() {
         return DataType.BOOLEAN;
     }
-
 }

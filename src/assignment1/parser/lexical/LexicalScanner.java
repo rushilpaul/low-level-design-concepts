@@ -1,9 +1,11 @@
-package assignment1.parser;
+package assignment1.parser.lexical;
 
 import assignment1.parser.exceptions.SyntaxException;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static assignment1.parser.lexical.TokenType.*;
 
 public class LexicalScanner {
 
@@ -22,69 +24,66 @@ public class LexicalScanner {
         List<Token> tokens = new ArrayList<>();
 
         // start parsing
-        while(currentPos < expression.length) {
+        while(true) {
 
-            char currentChar = getChar();
-            if(currentChar == EOF)
-                break;
-
+            Character currentChar = getChar();
             Token token;
 
             if(Character.isWhitespace(currentChar)) {   // skip whitespaces
                 getWhitespaces();
                 continue;
             }
-            if(Character.isDigit(currentChar)) {
-                token = new Token(getInteger());
-            }
-            else if(currentChar == '"') {
-                token = new Token(getStringConstant());
+
+            if(currentChar == EOF) {
+                tokens.add(new Token("", END_OF_INPUT));
+                break;
+
+            } else if(Character.isDigit(currentChar)) {
+                token = new Token(getInteger(), NUMBER);
+
+            } else if(currentChar == '"') {
+                token = new Token(getStringConstant(), STRING);
 
             } else if(Character.isLetter(currentChar)) {
-                token = new Token(getVariableOrKeyword());
-
-            } else if(currentChar == '<') {
-                if(isNextString("<=")) {
-                    token = new Token("<=");
-                    nextPosition();
-                } else
-                    token = new Token("<");
-                nextPosition();
+                token = new Token(getVariableOrKeyword(), WORD);
 
             } else if(currentChar == '>') {
                 if(isNextString(">=")) {
-                    token = new Token(">=");
+                    token = new Token(">=", GREATER_THAN_EQUALS);
                     nextPosition();
                 } else
-                    token = new Token(">");
+                    token = new Token(">", GREATER_THAN);
                 nextPosition();
 
             } else if(currentChar == '<') {
                 if(isNextString("<=")) {
-                    token = new Token("<=");
+                    token = new Token("<=", LESS_THAN_EQUALS);
                     nextPosition();
                 } else
-                    token = new Token("<");
+                    token = new Token("<", LESS_THAN);
                 nextPosition();
 
             } else if(currentChar == '=') {
                 if(isNextString("==")) {
-                    token = new Token("==");
+                    token = new Token("==", EQUALS);
                     nextPosition(2);
                 } else
                     throw new SyntaxException(String.format("Invalid character '%c' found encountered", currentChar), currentPos);
 
             } else if(currentChar == '!') {
                 if(isNextString("!=")) {
-                    token = new Token("!=");
+                    token = new Token("!=", NOT_EQUALS);
                     nextPosition(2);
                 } else
                     throw new SyntaxException(String.format("Invalid character '%c' found encountered", currentChar), currentPos);
 
-            } else if(isParenthesis(currentChar))
-                token = new Token(getSpecialChar());
+            } else if(isParenthesis(currentChar)) {
+                token = new Token(currentChar, currentChar == '(' ? PARENTHESIS_OPEN : PARENTHESIS_CLOSE);
+                nextPosition();
+            }
+
             else if(currentChar == ',') {
-                token = new Token(Character.valueOf(currentChar));
+                token = new Token(currentChar, COMMA);
                 nextPosition();
 
             } else

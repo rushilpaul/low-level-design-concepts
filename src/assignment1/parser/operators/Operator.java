@@ -1,10 +1,11 @@
 package assignment1.parser.operators;
 
+import assignment1.parser.operands.Expression;
 import assignment1.parser.operands.Operand;
 
 import java.util.*;
 
-public abstract class Operator {
+public abstract class Operator implements Expression {
 
     protected List<Operand> operands;
 
@@ -32,12 +33,23 @@ public abstract class Operator {
 
     abstract protected Operand compute();
 
-    abstract public Set<Character> tokenStartsWith();
+    /**
+     * Unused so far
+     * @return Characters returned are supposed to aid in parsing grammar
+     */
+    public Character tokenStartsWith() {
+        return stringRepresentation().charAt(0);
+    }
 
+    /**
+     * @return true if this operator can operate on the operands provided, false otherwise
+     */
     abstract protected boolean canOperate();
 
     /**
      * Abort if number of operands are not as expected
      */
     abstract protected void checkNumberOfOperands();
+
+    abstract public String stringRepresentation();
 }

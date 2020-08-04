@@ -1,4 +1,4 @@
-package assignment1.parser.operators;
+package assignment1.parser.operators.relational;
 
 import assignment1.parser.operands.BooleanOp;
 import assignment1.parser.operands.Operand;
@@ -29,7 +29,8 @@ public class GreaterThanOperator extends RelationalOperator {
         return true;    // TODO: implement this
     }
 
-    public Set<Character> tokenStartsWith() {
-        return new HashSet<>(Arrays.asList('>'));
+    @Override
+    public String stringRepresentation() {
+        return ">";
     }
 }

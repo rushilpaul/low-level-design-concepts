@@ -1,12 +1,9 @@
-package assignment1.parser.operators;
+package assignment1.parser.operators.relational;
 
 import assignment1.parser.operands.BooleanOp;
 import assignment1.parser.operands.Operand;
 
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 public class EqualsOperator extends RelationalOperator {
 
@@ -21,16 +18,16 @@ public class EqualsOperator extends RelationalOperator {
     public Operand compute() {
         if(!canOperate())
             return null;
-        return BooleanOp.of(operands.get(0).equals(operands.get(1)));
-    }
-
-    @Override
-    public Set<Character> tokenStartsWith() {
-        return new HashSet<>(Arrays.asList('='));
+        return BooleanOp.of(firstOperand().equals(secondOperand()));
     }
 
     @Override
     protected boolean canOperate() {
         return true;    // TODO: implement
+    }
+
+    @Override
+    public String stringRepresentation() {
+        return "==";
     }
 }

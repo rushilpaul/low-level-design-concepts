@@ -1,6 +1,6 @@
 package assignment1.parser.operands;
 
-import assignment1.parser.DataType;
+import java.util.Objects;
 
 public abstract class Operand implements Expression {
 
@@ -22,6 +22,28 @@ public abstract class Operand implements Expression {
       this.value = value;
    }
 
-   abstract public DataType getDataType();
+   public abstract DataType getDataType();
 
+   @Override
+   public Expression evaluate() {
+      return this;
+   }
+
+   @Override
+   public String toString() {
+      return String.format("[%s : %s]", value, getDataType());
+   }
+
+   @Override
+   public boolean equals(Object o) {
+      if (this == o) return true;
+      if (o == null || getClass() != o.getClass()) return false;
+      Operand operand = (Operand) o;
+      return Objects.equals(value, operand.value);
+   }
+
+   @Override
+   public int hashCode() {
+      return Objects.hash(value);
+   }
 }

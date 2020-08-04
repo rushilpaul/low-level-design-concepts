@@ -1,16 +1,33 @@
 
 Grammar:
-expr -> integer | booleanExpr | variable | '(' expr ')'
-booleanExpr -> boolean |
-               '(' booleanExpr ')' |
-               booleanConst space relationalOp space expr space [logicalOp booleanExpr] |
-               booleanVariable space relationalOp space expr space [logicalOp booleanExpr]
-relationalOp -> >= | > | <= | < | == | !=
-booleanConst -> true$ | false$
+
+expr -> compositeBooleanExpr $
+compositeBooleanExpr -> simpleBooleanExpr (logicalOp compositeBooleanExpr)
+
+simpleBooleanExpr ->
+               bracket_open compositeBooleanExpr bracket_close |
+               term [relationalOp compositeBooleanExpr] |
+               betweenOp
+
+term -> booleanConst | integer | variable
+
+booleanConst -> true | false
 variable -> letter [string] [.variable]
 string -> alphanumeric[string]
 alphanumeric -> letter | digit
 integer -> digit[integer]
-letter -> a-z | $
-digit -> 0-9 | $
+letter -> a-z
+digit -> 0-9
 space -> [ \t\n]+
+comma -> ,
+
+logicalOp -> and | or
+relationalOp -> >= | > | <= | < | == | !=
+betweenOp -> between bracket_open (variable | integer) comma integer comma integer bracket_close
+
+Examples:
+
+(a != b) and c == true
+a == between(x,a,b)
+
+age >= 25 AND (...)
