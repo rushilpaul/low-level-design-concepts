@@ -1,9 +1,11 @@
 package assignment1.parser.operators;
 
+import assignment1.parser.exceptions.SyntaxException;
 import assignment1.parser.lexical.Token;
 import assignment1.parser.operators.logical.AndOperator;
 import assignment1.parser.operators.logical.OrOperator;
 import assignment1.parser.operators.relational.EqualsOperator;
+import assignment1.parser.operators.relational.GreaterThanEqualsOperator;
 import assignment1.parser.operators.relational.GreaterThanOperator;
 import assignment1.parser.operators.relational.LessThanOperator;
 
@@ -12,13 +14,16 @@ public class OperatorBuilder {
     public static Operator createOperator(Token token) {
 
         String value = token.toString();
-        if(value.equals("<")) {
+        if(value.equals("<"))
             return new LessThanOperator();
-        }
-        else if(value.equals(">")) {
+
+        else if(value.equals(">"))
             return new GreaterThanOperator();
 
-        } else if(value.equals("=="))
+        else if(value.equals(">="))
+            return new GreaterThanEqualsOperator();
+
+        else if(value.equals("=="))
             return new EqualsOperator();
 
         else if(value.equals("and")) {
@@ -28,6 +33,6 @@ public class OperatorBuilder {
             return new OrOperator();
         }
 
-        throw new RuntimeException("Unsupported operator " + token.getValue());
+        throw new SyntaxException("Unsupported operator " + token.getValue());
     }
 }

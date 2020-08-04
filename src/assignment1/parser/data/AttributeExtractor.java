@@ -3,7 +3,6 @@ package assignment1.parser.data;
 import assignment1.parser.exceptions.InvalidKeyException;
 import assignment1.parser.exceptions.UnsupportedDataTypeException;
 
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -15,18 +14,20 @@ public class AttributeExtractor {
     public static final String KEY_SEPARATOR = ".";
 
     public AttributeExtractor(Map<String, Object> dataMap) {
-        this.dataMap = new HashMap<>(dataMap);
+        if(dataMap == null)
+            throw new IllegalArgumentException("Data Map cannot be null");
+        this.dataMap = dataMap;
     }
 
     /**
-     * @param dottedKey A dot separated key (like "user.location.city")
+     * @param dotSeparatedKey A (dot delimited) key (e.g. "user.location.city")
      * @return Value at the specified key, or null if no value exists
      * @throws InvalidKeyException if the dotted key is invalid (individual key parts should not be empty)
      * @throws UnsupportedDataTypeException if a data type apart from Integer, Boolean, String is encountered
      */
-    public Object getPrimitiveValue(String dottedKey) throws InvalidKeyException, UnsupportedDataTypeException {
+    public Object getPrimitiveValue(String dotSeparatedKey) throws InvalidKeyException, UnsupportedDataTypeException {
 
-        String keyParts[] = getKeyParts(dottedKey);
+        String keyParts[] = getKeyParts(dotSeparatedKey);
         Map currentNode = dataMap;
         StringBuilder keyString = new StringBuilder();
 
@@ -35,14 +36,16 @@ public class AttributeExtractor {
             keyString.append(keyParts[position]);
             Object value = currentNode.get(keyParts[position]);
 
-            if(isPrimitive(value))
+            if(value == null)
+                return null;
+            else if(isPrimitive(value))
                 return value;
             else if(value instanceof Map) {
                 currentNode = (Map) value;
             } else
                 throw new UnsupportedDataTypeException(keyString.toString());
         }
-        throw new InvalidKeyException(dottedKey);
+        return null;
     }
 
 

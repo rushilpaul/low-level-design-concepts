@@ -25,7 +25,7 @@ public abstract class Operand implements Expression {
    public abstract DataType getDataType();
 
    @Override
-   public Expression evaluate() {
+   public Operand evaluate() {
       return this;
    }
 

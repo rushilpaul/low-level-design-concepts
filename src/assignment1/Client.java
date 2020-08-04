@@ -1,11 +1,28 @@
 package assignment1;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Client {
 
     public static void main(String args[]) throws Exception {
 
         FeatureGate featureGate = new FeatureGate();
-        featureGate.isAllowed("(true == false or false == \"false\") and false == true", "", null);
+
+        String condition = "(true == 20 or false == false) and false == true";
+        Map<String, Object> attributeMap = new HashMap<>();
+        fillMap(attributeMap);
+
+        if(featureGate.isAllowed(condition, "some feature", attributeMap))
+            System.out.println("Feature is allowed");
+        else
+            System.out.println("Feature is not allowed");
 //        featureGate.isAllowed("(a1.b != \"b\" and age > 10)", "", null);
+    }
+
+    private static void fillMap(Map<String, Object> dataMap) {
+
+        dataMap.put("age", 20);
+        dataMap.put("isRetarded", true);
     }
 }
