@@ -1,5 +1,6 @@
 package assignment1.parser.operators.relational;
 
+import assignment1.parser.operands.DataType;
 import assignment1.parser.operands.Operand;
 import assignment1.parser.operators.Operator;
 
@@ -31,6 +32,6 @@ public abstract class RelationalOperator extends Operator {
 
     @Override
     protected boolean canOperate() {
-        return firstOperand().getDataType() == secondOperand().getDataType();
+        return firstOperand().getDataType() == DataType.INTEGER && firstOperand().getDataType() == secondOperand().getDataType();
     }
 }

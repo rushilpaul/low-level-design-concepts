@@ -126,7 +126,7 @@ public class LanguageEvaluator {
 
         Operand endNumber = term();
         if(getTokenAndNext().tokenType() != TokenType.PARENTHESIS_CLOSE)
-            throw new SyntaxException("Expected an closing bracket", currentPos);
+            throw new SyntaxException("Expected a closing bracket", currentPos);
 
         operator.addOperand(primary);
         operator.addOperand(startNumber);
