@@ -19,7 +19,7 @@ public class LexicalScanner {
         currentPos = 0;
     }
 
-    public List<Token> tokenize() throws Exception {
+    public List<Token> tokenize() {
 
         List<Token> tokens = new ArrayList<>();
 
@@ -42,7 +42,7 @@ public class LexicalScanner {
                 token = new Token(getInteger(), NUMBER);
 
             } else if(currentChar == '"') {
-                token = new Token(getStringConstant(), STRING);
+                token = new Token(getStringConstant(), STRING_CONST);
 
             } else if(Character.isLetter(currentChar)) {
                 token = new Token(getVariableOrKeyword(), WORD);
@@ -208,7 +208,6 @@ public class LexicalScanner {
 
     /**
      * Skip to the next position
-     * @return
      */
     private void nextPosition() {
         currentPos++;

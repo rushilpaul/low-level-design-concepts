@@ -7,11 +7,7 @@ import assignment1.parser.exceptions.SyntaxException;
 import assignment1.parser.exceptions.UnsupportedDataTypeException;
 import assignment1.parser.lexical.Token;
 import assignment1.parser.lexical.TokenType;
-import assignment1.parser.operands.BooleanOp;
-import assignment1.parser.operands.IntegerOp;
-import assignment1.parser.operands.Operand;
-import assignment1.parser.operands.UserVariableOp;
-import assignment1.parser.operators.Operator;
+import assignment1.parser.operands.*;
 import assignment1.parser.operators.OperatorBuilder;
 import assignment1.parser.operators.logical.LogicalOperator;
 import assignment1.parser.operators.relational.RelationalOperator;
@@ -85,6 +81,10 @@ public class LanguageEvaluator {
 
         else if(tokenDetectionStrategy.isVariable(lookAhead))
             return new UserVariableOp(attributeExtractor, (String) getTokenAndNext().getValue());
+
+        else if(lookAhead.tokenType() == TokenType.STRING_CONST) {
+            return StringOp.of(getTokenAndNext().toString());
+        }
 
         else if(lookAhead.tokenType() == TokenType.PARENTHESIS_OPEN) {
 

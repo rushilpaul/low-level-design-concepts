@@ -28,4 +28,9 @@ public abstract class RelationalOperator extends Operator {
     protected Operand secondOperand() {
         return operands.get(1);
     }
+
+    @Override
+    protected boolean canOperate() {
+        return firstOperand().getDataType() == secondOperand().getDataType();
+    }
 }

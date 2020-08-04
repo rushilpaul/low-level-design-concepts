@@ -23,14 +23,17 @@ public class FeatureGate {
 
         LexicalScanner lexicalScanner = new LexicalScanner(conditionalExpr);
         List<Token> tokenList = lexicalScanner.tokenize();
-        printTokenList(tokenList);  // only for debug statement
+        printTokenList(tokenList);  // only for debugging purposes
 
         TokenDetectionStrategy tokenDetectionStrategy = new TokenDetectionStrategy();
         AttributeExtractor attributeExtractor = new AttributeExtractor(userAttributes);
         LanguageEvaluator parser = new LanguageEvaluator(tokenList, tokenDetectionStrategy, attributeExtractor);
 
         Operand result = parser.evaluate();
-        System.out.println("Result: " + result);
+        if(result.getDataType() != DataType.BOOLEAN)
+            System.out.println("WARN: Evaluation result is of type " + result.getDataType());
+        else
+            System.out.println("Evaluation result: " + result);
 
         boolean isFeatureAllowed = result.getDataType() == DataType.BOOLEAN && ((BooleanOp) result).getBasicValue();
         return isFeatureAllowed;

@@ -14,7 +14,7 @@ public abstract class Operator implements Expression {
     }
 
     public Operator(List<Operand> operands) {
-        operands = new ArrayList<>(operands);
+        this.operands = new ArrayList<>(operands);
     }
 
     public void addOperand(Operand operand) {

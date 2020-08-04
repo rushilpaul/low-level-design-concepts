@@ -7,7 +7,7 @@ public enum TokenType {
 
     WORD,       // represents variable name, or a keyword (like BETWEEN, OR)
     NUMBER,     // represents integers or floating point numbers (in future)
-    STRING,     // represents string constants
+    STRING_CONST,     // represents string constants
     PARENTHESIS_OPEN,
     PARENTHESIS_CLOSE,
     COMMA,

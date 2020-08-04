@@ -37,9 +37,9 @@ public abstract class Operand implements Expression {
    @Override
    public boolean equals(Object o) {
       if (this == o) return true;
-      if (o == null || getClass() != o.getClass()) return false;
+      if (o == null) return false;
       Operand operand = (Operand) o;
-      return Objects.equals(value, operand.value);
+      return value.toString().equals(operand.value.toString());
    }
 
    @Override

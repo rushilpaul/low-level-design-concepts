@@ -23,11 +23,6 @@ public class GreaterThanOperator extends RelationalOperator {
     }
 
     @Override
-    protected boolean canOperate() {
-        return true;    // TODO: implement this
-    }
-
-    @Override
     public String stringRepresentation() {
         return ">";
     }
