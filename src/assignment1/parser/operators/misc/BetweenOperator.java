@@ -16,7 +16,7 @@ public class BetweenOperator extends Operator {
     }
 
     @Override
-    public Operand compute() {
+    protected Operand compute() {
         if(!canOperate())
             return null;
 

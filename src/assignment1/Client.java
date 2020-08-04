@@ -5,12 +5,11 @@ import java.util.Map;
 
 public class Client {
 
-    public static void main(String args[]) throws Exception {
+    public static void main(String args[]) {
 
         FeatureGate featureGate = new FeatureGate();
 
-//        String condition = "(age > true and location.country == \"India\") or (true == true)";
-        String condition = "age === true";
+        String condition = "(between (age, minimumAge, maxAge) and location.country == \"India\") or (true == true)";
         Map<String, Object> attributeMap = new HashMap<>();
         fillMap(attributeMap);
 
@@ -23,7 +22,9 @@ public class Client {
 
     private static void fillMap(Map<String, Object> dataMap) {
 
-        dataMap.put("age", 20);
+        dataMap.put("age",25);
+        dataMap.put("minimumAge", 20);
+//        dataMap.put("maxAge", 40);
         dataMap.put("isRetarded", true);
         Map<String, Object> locationMap = new HashMap<>();
         locationMap.put("country", "India");

@@ -47,7 +47,7 @@ public class FeatureGate {
 
     private void printTokenList(List<Token> tokens) {
 
-        String printableList = "[" + String.join(", ", tokens.stream().map(token -> token.toString()).collect(Collectors.toList())) + "]";
+        String printableList = "[" + String.join(" ", tokens.stream().map(token -> token.toString()).collect(Collectors.toList())) + "]";
         System.out.println(printableList);
     }
 }

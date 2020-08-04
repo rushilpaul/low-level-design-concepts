@@ -17,12 +17,12 @@ public class TokenDetectionStrategy {
     /**
      * This stores the string representations of all relational operators
      */
-    private Set<Character> relationalOperatorsStringForm;
+    private Set<String> relationalOperatorsStringForm;
 
     /**
      * This stores the string representations of all logical operators
      */
-    private Set<Character> logicalOperatorsStringForm;
+    private Set<String> logicalOperatorsStringForm;
 
     private BetweenOperator betweenOperator = new BetweenOperator();
 
@@ -65,7 +65,11 @@ public class TokenDetectionStrategy {
     }
 
     public boolean isVariable(Token token) {
-        return token.tokenType() == TokenType.WORD && !logicalOperatorsStringForm.contains(token) && !isBooleanConst(token);
+        return token.tokenType() == TokenType.WORD && !isKeyword(token);
+    }
+
+    public boolean isKeyword(Token token) {
+        return logicalOperatorsStringForm.contains(token) || isBooleanConst(token) || isBetweenOperator(token);
     }
 
     public boolean isBetweenOperator(Token token) {

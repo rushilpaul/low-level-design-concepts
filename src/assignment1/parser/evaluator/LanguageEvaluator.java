@@ -10,6 +10,7 @@ import assignment1.parser.lexical.TokenType;
 import assignment1.parser.operands.*;
 import assignment1.parser.operators.OperatorBuilder;
 import assignment1.parser.operators.logical.LogicalOperator;
+import assignment1.parser.operators.misc.BetweenOperator;
 import assignment1.parser.operators.relational.RelationalOperator;
 
 import java.util.List;
@@ -101,10 +102,36 @@ public class LanguageEvaluator {
             return middleExpression;
 
         } else if(tokenDetectionStrategy.isBetweenOperator(lookAhead)) {
-            throw new SyntaxException("Not implemented between yet");
-
+            return betweenOperator();
         }
         throw new SyntaxException("Expected a variable, boolean, integer or string", currentPos);
+    }
+
+    private Operand betweenOperator() throws InvalidKeyException, UnsupportedDataTypeException {
+
+        Token betweenToken = getTokenAndNext();
+        BetweenOperator operator = new BetweenOperator();
+        if(!tokenDetectionStrategy.isBetweenOperator(betweenToken))
+            throw new SyntaxException("Expected between operator", currentPos);
+        if(getTokenAndNext().tokenType() != TokenType.PARENTHESIS_OPEN)
+            throw new SyntaxException("Expected an opening bracket", currentPos);
+
+        Operand primary = term();
+        if(getTokenAndNext().tokenType() != TokenType.COMMA)
+            throw new SyntaxException("Expected a comma", currentPos);
+
+        Operand startNumber = term();
+        if(getTokenAndNext().tokenType() != TokenType.COMMA)
+            throw new SyntaxException("Expected a comma", currentPos);
+
+        Operand endNumber = term();
+        if(getTokenAndNext().tokenType() != TokenType.PARENTHESIS_CLOSE)
+            throw new SyntaxException("Expected an closing bracket", currentPos);
+
+        operator.addOperand(primary);
+        operator.addOperand(startNumber);
+        operator.addOperand(endNumber);
+        return operator.evaluate();
     }
 
     private RelationalOperator relationalOperator() {
@@ -119,7 +146,7 @@ public class LanguageEvaluator {
         return (LogicalOperator) OperatorBuilder.createOperator(getTokenAndNext());
     }
 
-    private IntegerOp integerOp() {
+    private IntegerOp integer() {
         Token token = getTokenAndNext();
         if(!tokenDetectionStrategy.isInteger(token))
             throw new SyntaxException("Integer expected instead of " + token, currentPos);
