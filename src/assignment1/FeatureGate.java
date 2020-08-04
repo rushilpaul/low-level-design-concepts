@@ -3,7 +3,7 @@ package assignment1;
 import assignment1.parser.TokenDetectionStrategy;
 import assignment1.parser.data.AttributeExtractor;
 import assignment1.parser.lexical.LexicalScanner;
-import assignment1.parser.LanguageParser;
+import assignment1.parser.evaluator.LanguageEvaluator;
 import assignment1.parser.lexical.Token;
 import assignment1.parser.operands.BooleanOp;
 import assignment1.parser.operands.DataType;
@@ -11,6 +11,7 @@ import assignment1.parser.operands.Operand;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class FeatureGate {
 
@@ -25,12 +26,10 @@ public class FeatureGate {
         printTokenList(tokenList);  // only for debug statement
 
         TokenDetectionStrategy tokenDetectionStrategy = new TokenDetectionStrategy();
-
         AttributeExtractor attributeExtractor = new AttributeExtractor(userAttributes);
+        LanguageEvaluator parser = new LanguageEvaluator(tokenList, tokenDetectionStrategy, attributeExtractor);
 
-        LanguageParser parser = new LanguageParser(tokenList, tokenDetectionStrategy, attributeExtractor);
-
-        Operand result = parser.generate();
+        Operand result = parser.evaluate();
         System.out.println("Result: " + result);
 
         boolean isFeatureAllowed = result.getDataType() == DataType.BOOLEAN && ((BooleanOp) result).getBasicValue();
@@ -38,9 +37,8 @@ public class FeatureGate {
     }
 
     private void printTokenList(List<Token> tokens) {
-        for(Object token : tokens) {
-            System.out.print(token + " ");
-        }
-        System.out.println();
+
+        String printableList = "[" + String.join(", ", tokens.stream().map(token -> token.toString()).collect(Collectors.toList())) + "]";
+        System.out.println(printableList);
     }
 }

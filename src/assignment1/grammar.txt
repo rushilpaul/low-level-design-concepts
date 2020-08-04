@@ -2,14 +2,11 @@
 Grammar:
 
 expr -> compositeBooleanExpr $
-compositeBooleanExpr -> simpleBooleanExpr (logicalOp compositeBooleanExpr)
+compositeBooleanExpr -> simpleBooleanExpr (logicalOp simpleBooleanExpr) *
 
-simpleBooleanExpr ->
-               bracket_open compositeBooleanExpr bracket_close |
-               term [relationalOp compositeBooleanExpr] |
-               betweenOp
+simpleBooleanExpr -> term relationalOp term
 
-term -> booleanConst | integer | variable
+term -> booleanConst | integer | variable | betweenOp | '(' compositeBooleanExpr ')'
 
 booleanConst -> true | false
 variable -> letter [string] [.variable]
@@ -21,9 +18,9 @@ digit -> 0-9
 space -> [ \t\n]+
 comma -> ,
 
-logicalOp -> and | or
-relationalOp -> >= | > | <= | < | == | !=
-betweenOp -> between bracket_open (variable | integer) comma integer comma integer bracket_close
+logicalOp -> 'and' | 'or'
+relationalOp -> '>=' | '>' | '<=' | '<' | '==' | '!='
+betweenOp -> 'between' '(' (variable | integer) ',' term ',' term ')'
 
 Examples:
 

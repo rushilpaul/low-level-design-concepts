@@ -11,7 +11,7 @@ import java.util.Map;
 public class AttributeExtractor {
 
     private Map<String, Object> dataMap;
-    public static final String KEY_SEPARATOR = ".";
+    public static final String KEY_SEPARATOR = "\\.";
 
     public AttributeExtractor(Map<String, Object> dataMap) {
         if(dataMap == null)

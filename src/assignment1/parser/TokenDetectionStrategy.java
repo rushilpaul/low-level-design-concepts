@@ -4,6 +4,8 @@ import assignment1.parser.lexical.Token;
 import assignment1.parser.lexical.TokenType;
 import assignment1.parser.operators.Operator;
 import assignment1.parser.operators.logical.AndOperator;
+import assignment1.parser.operators.logical.OrOperator;
+import assignment1.parser.operators.misc.BetweenOperator;
 import assignment1.parser.operators.relational.*;
 
 import java.util.HashSet;
@@ -22,6 +24,8 @@ public class TokenDetectionStrategy {
      */
     private Set<Character> logicalOperatorsStringForm;
 
+    private BetweenOperator betweenOperator = new BetweenOperator();
+
     public TokenDetectionStrategy() {
         // Should either use better design or do this via reflection, otherwise adding new operators can be a pain
         Set<Operator> allRelationalOperators = new HashSet<>();
@@ -32,6 +36,7 @@ public class TokenDetectionStrategy {
 
         Set<Operator> allLogicalOperators = new HashSet<>();
         allLogicalOperators.add(new AndOperator());
+        allLogicalOperators.add(new OrOperator());
 
         relationalOperatorsStringForm = new HashSet(getStringRepresentations(allRelationalOperators));
         logicalOperatorsStringForm = new HashSet(getStringRepresentations(allLogicalOperators));
@@ -63,8 +68,16 @@ public class TokenDetectionStrategy {
         return token.tokenType() == TokenType.WORD && !logicalOperatorsStringForm.contains(token) && !isBooleanConst(token);
     }
 
+    public boolean isBetweenOperator(Token token) {
+        return token.tokenType() == TokenType.WORD && token.toString().equals(betweenOperator.stringRepresentation());
+    }
+
     public boolean isRelationalOperator(Token token) {
         return relationalOperatorsStringForm.contains(token.toString());
+    }
+
+    public boolean isLogicalOperator(Token token) {
+        return logicalOperatorsStringForm.contains(token.toString());
     }
 
     private Set<String> getStringRepresentations(Set<Operator> operators) {
