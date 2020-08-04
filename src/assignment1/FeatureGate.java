@@ -33,13 +33,13 @@ public class FeatureGate {
         try {
             result = parser.evaluate();
         } catch (Exception ex) {
-            System.err.println("Evaluation error: " + ex.getMessage());
+            System.err.println("[ERROR] Evaluation error: " + ex.getMessage());
             return false;
         }
         if(result.getDataType() != DataType.BOOLEAN)
-            System.out.println("WARN: Evaluation result is of type " + result.getDataType());
+            System.out.println("[WARN] Evaluation result is of type " + result.getDataType());
         else
-            System.out.println("Evaluation result: " + result);
+            System.out.println("[DEBUG] Evaluation result: " + result);
 
         boolean isFeatureAllowed = result.getDataType() == DataType.BOOLEAN && ((BooleanOp) result).getBasicValue();
         return isFeatureAllowed;
@@ -48,6 +48,6 @@ public class FeatureGate {
     private void printTokenList(List<Token> tokens) {
 
         String printableList = "[" + String.join(" ", tokens.stream().map(token -> token.toString()).collect(Collectors.toList())) + "]";
-        System.out.println(printableList);
+        System.out.println("[DEBUG] Token list generated: " + printableList);
     }
 }
