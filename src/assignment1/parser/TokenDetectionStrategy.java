@@ -31,6 +31,7 @@ public class TokenDetectionStrategy {
         Set<Operator> allRelationalOperators = new HashSet<>();
         allRelationalOperators.add(new EqualsOperator());
         allRelationalOperators.add(new LessThanOperator());
+        allRelationalOperators.add(new LessThanEqualsOperator());
         allRelationalOperators.add(new GreaterThanOperator());
         allRelationalOperators.add(new GreaterThanEqualsOperator());
 

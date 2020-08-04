@@ -27,7 +27,7 @@ public abstract class Operator implements Expression {
 
         checkNumberOfOperands();
         if(!canOperate()) {
-            throw new EvaluationException("Can't operate on the operands: " + operands);
+            throw new EvaluationException("Can't apply operator " + getClass().getSimpleName() + " on the operands: " + operands);
         }
         return compute();
     }

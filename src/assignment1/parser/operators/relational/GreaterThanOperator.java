@@ -1,6 +1,7 @@
 package assignment1.parser.operators.relational;
 
 import assignment1.parser.operands.BooleanOp;
+import assignment1.parser.operands.DataType;
 import assignment1.parser.operands.IntegerOp;
 import assignment1.parser.operands.Operand;
 
@@ -25,5 +26,10 @@ public class GreaterThanOperator extends RelationalOperator {
     @Override
     public String stringRepresentation() {
         return ">";
+    }
+
+    @Override
+    protected boolean canOperate() {
+        return super.canOperate() && firstOperand().getDataType() == DataType.INTEGER;
     }
 }

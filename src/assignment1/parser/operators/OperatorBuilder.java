@@ -4,10 +4,7 @@ import assignment1.parser.exceptions.SyntaxException;
 import assignment1.parser.lexical.Token;
 import assignment1.parser.operators.logical.AndOperator;
 import assignment1.parser.operators.logical.OrOperator;
-import assignment1.parser.operators.relational.EqualsOperator;
-import assignment1.parser.operators.relational.GreaterThanEqualsOperator;
-import assignment1.parser.operators.relational.GreaterThanOperator;
-import assignment1.parser.operators.relational.LessThanOperator;
+import assignment1.parser.operators.relational.*;
 
 public class OperatorBuilder {
 
@@ -16,6 +13,9 @@ public class OperatorBuilder {
         String value = token.toString();
         if(value.equals("<"))
             return new LessThanOperator();
+
+        else if(value.equals("<="))
+            return new LessThanEqualsOperator();
 
         else if(value.equals(">"))
             return new GreaterThanOperator();

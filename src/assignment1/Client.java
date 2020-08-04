@@ -22,9 +22,9 @@ public class Client {
 
     private static void fillMap(Map<String, Object> dataMap) {
 
-        dataMap.put("age",25);
+        dataMap.put("age", 25);
         dataMap.put("minimumAge", 20);
-//        dataMap.put("maxAge", 40);
+        dataMap.put("maxAge", 40);
         dataMap.put("isRetarded", true);
         Map<String, Object> locationMap = new HashMap<>();
         locationMap.put("country", "India");
