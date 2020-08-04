@@ -6,12 +6,13 @@ compositeBooleanExpr -> simpleBooleanExpr (logicalOp simpleBooleanExpr) *
 
 simpleBooleanExpr -> term [relationalOp term]
 
-term -> booleanConst | integer | variable | stringConst | betweenOp | '(' compositeBooleanExpr ')'
+term -> booleanConst | integer | nestedVariable | stringConst | betweenOp | '(' compositeBooleanExpr ')'
 
 booleanConst -> true | false
 stringConst -> '"' any_char '"'
-variable -> letter [string] [.variable]
-string -> alphanumeric[string]
+variable -> ('_') letter (string) *
+nestedVariable -> variable (.variable) *
+string -> (alphanumeric | '_' ) (string) *
 alphanumeric -> letter | digit
 integer -> digit[integer]
 letter -> a-z

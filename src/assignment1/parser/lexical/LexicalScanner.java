@@ -44,8 +44,8 @@ public class LexicalScanner {
             } else if(currentChar == '"') {
                 token = new Token(getStringConstant(), STRING_CONST);
 
-            } else if(Character.isLetter(currentChar)) {
-                token = new Token(getVariableOrKeyword(), WORD);
+            } else if(Character.isLetter(currentChar) || currentChar == '_') {
+                token = new Token(getDottedWord(), WORD);
 
             } else if(currentChar == '>') {
                 if(isNextString(">=")) {
@@ -68,14 +68,14 @@ public class LexicalScanner {
                     token = new Token("==", EQUALS);
                     nextPosition(2);
                 } else
-                    throw new SyntaxException(String.format("Invalid character '%c' found encountered", currentChar), currentPos);
+                    throw new SyntaxException(String.format("Invalid character '%c' encountered", currentChar), currentPos);
 
             } else if(currentChar == '!') {
                 if(isNextString("!=")) {
                     token = new Token("!=", NOT_EQUALS);
                     nextPosition(2);
                 } else
-                    throw new SyntaxException(String.format("Invalid character '%c' found encountered", currentChar), currentPos);
+                    throw new SyntaxException(String.format("Invalid character '%c' encountered", currentChar), currentPos);
 
             } else if(isParenthesis(currentChar)) {
                 token = new Token(currentChar, currentChar == '(' ? PARENTHESIS_OPEN : PARENTHESIS_CLOSE);
@@ -112,41 +112,54 @@ public class LexicalScanner {
         return stringConstant.toString();
     }
 
-    private String getSpecialChar() {
-        char ch = getChar();
-        nextPosition();
-        return ch + "";
-    }
-
     /**
-     *
-     * @return dot separated variables or keywords like true, false, AND, OR, BETWEEN, ALLOF, NONEOF
+     * Starts with _ or a letter
+     * @return word that starts with _ or letter and is followed by a string of alpha numeric characters or '_'
      */
-    private String getVariableOrKeyword() {
+    private String getWord() {
 
         StringBuilder builder = new StringBuilder();
+
+        if(getChar() == '_')
+            builder.append(getAndNext());
         builder.append(getLetter());
 
-        if(Character.isLetterOrDigit(getChar()))
-            builder.append(getAlphaNumericString());
-
-        if(getChar() == '.') {
-            builder.append(getAndNext());
-            builder.append(getVariableOrKeyword());
-        }
+        while(Character.isLetter(getChar()) || getChar() == '_')
+            builder.append(getString());
 
         return builder.toString();
     }
 
-    private String getAlphaNumericString() {
+    /**
+     * @return dot separated variables or keywords like true, false, AND, OR, BETWEEN, ALLOF, NONEOF
+     */
+    private String getDottedWord() {
 
-        StringBuilder builder = new StringBuilder();
+        StringBuilder dottedWord = new StringBuilder(getWord());
+        while(getChar() == '.') {
+            dottedWord.append(getAndNext());
+            dottedWord.append(getWord());
+        }
+        return dottedWord.toString();
+    }
+
+    private String getAlphaNumeric() {
+
         if(!Character.isLetterOrDigit(getChar()))
             throw new SyntaxException("Letter or digit was expected", currentPos);
-        builder.append(getAndNext());
+        return getAndNext() + "";
+    }
+
+    private String getString() {
+
+        StringBuilder builder = new StringBuilder();
+        if(getChar() == '_')
+            builder.append(getAndNext());
+        else
+            builder.append(getAlphaNumeric());
 
         if(Character.isLetterOrDigit(getChar()))
-            builder.append(getAlphaNumericString());
+            builder.append(getString());
 
         return builder.toString();
     }
@@ -166,7 +179,7 @@ public class LexicalScanner {
 
     private Character getLetter() {
         if(!Character.isLetter(getChar()))
-            throw new SyntaxException("Letter was expected", currentPos);
+            throw new SyntaxException("A letter was expected", currentPos);
         return getAndNext();
     }
 

@@ -9,7 +9,7 @@ public class Client {
 
         FeatureGate featureGate = new FeatureGate();
 
-        String condition = "(between (age, minimumAge, maxAge) and location.country == \"India\") or (age <= 40)";
+        String condition = "( (between (age, minimumAge, max_age) and country.name == \"India\") and isGovernmentEmployee == true) or country.population >= 100";
         Map<String, Object> attributeMap = new HashMap<>();
         fillMap(attributeMap);
 
@@ -17,17 +17,17 @@ public class Client {
             System.out.println("Feature is allowed");
         else
             System.out.println("Feature is not allowed");
-//        featureGate.isAllowed("(a1.b != \"b\" and age > 10)", "", null);
     }
 
     private static void fillMap(Map<String, Object> dataMap) {
 
         dataMap.put("age", 25);
-        dataMap.put("minimumAge", 20);
-        dataMap.put("maxAge", 40);
-        dataMap.put("isRetarded", true);
+        dataMap.put("minimumAge", 40);
+        dataMap.put("max_age", 60);
+        dataMap.put("isGovernmentEmployee", true);
         Map<String, Object> locationMap = new HashMap<>();
-        locationMap.put("country", "India");
-        dataMap.put("location", locationMap);
+        locationMap.put("name", "India");
+        locationMap.put("population", 10000);
+        dataMap.put("country", locationMap);
     }
 }
