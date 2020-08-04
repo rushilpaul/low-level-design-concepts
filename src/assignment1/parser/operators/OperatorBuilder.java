@@ -26,6 +26,9 @@ public class OperatorBuilder {
         else if(value.equals("=="))
             return new EqualsOperator();
 
+        else if(value.equals("!="))
+            return new NotEqualsOperator();
+
         else if(value.equals("and")) {
             return new AndOperator();
         }

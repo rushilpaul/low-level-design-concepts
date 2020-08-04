@@ -27,20 +27,12 @@ public abstract class Operator implements Expression {
 
         checkNumberOfOperands();
         if(!canOperate()) {
-            throw new EvaluationException("Can't apply operator " + getClass().getSimpleName() + " on the operands: " + operands);
+            throw new EvaluationException(String.format("Can't apply operator '%s' on the operands: %s", stringRepresentation(), operands));
         }
         return compute();
     }
 
     abstract protected Operand compute();
-
-    /**
-     * Unused so far
-     * @return Characters returned are supposed to aid in parsing grammar
-     */
-    public Character tokenStartsWith() {
-        return stringRepresentation().charAt(0);
-    }
 
     /**
      * @return true if this operator can operate on the operands provided, false otherwise

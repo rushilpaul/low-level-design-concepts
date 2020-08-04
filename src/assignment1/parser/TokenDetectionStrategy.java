@@ -30,6 +30,7 @@ public class TokenDetectionStrategy {
         // Should either use better design or do this via reflection, otherwise adding new operators can be a pain
         Set<Operator> allRelationalOperators = new HashSet<>();
         allRelationalOperators.add(new EqualsOperator());
+        allRelationalOperators.add(new NotEqualsOperator());
         allRelationalOperators.add(new LessThanOperator());
         allRelationalOperators.add(new LessThanEqualsOperator());
         allRelationalOperators.add(new GreaterThanOperator());
