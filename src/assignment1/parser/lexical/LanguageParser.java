@@ -13,14 +13,14 @@ import assignment1.parser.operators.relational.RelationalOperator;
 
 import java.util.List;
 
-public class ParseTreeGenerator {
+public class LanguageParser {
 
     private int currentPos = 0;
     private List<Token> tokens;
 
     private TokenDetectionStrategy tokenDetectionStrategy = new TokenDetectionStrategy();
 
-    public ParseTreeGenerator(List<Token> tokens) {
+    public LanguageParser(List<Token> tokens) {
         this.tokens = tokens;
     }
 

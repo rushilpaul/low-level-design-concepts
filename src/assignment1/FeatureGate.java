@@ -1,7 +1,7 @@
 package assignment1;
 
 import assignment1.parser.lexical.LexicalScanner;
-import assignment1.parser.lexical.ParseTreeGenerator;
+import assignment1.parser.lexical.LanguageParser;
 import assignment1.parser.lexical.Token;
 
 import java.util.List;
@@ -17,7 +17,7 @@ public class FeatureGate {
             System.out.print(token + " ");
         }
         System.out.println();
-        ParseTreeGenerator treeGenerator = new ParseTreeGenerator(tokenList);
+        LanguageParser treeGenerator = new LanguageParser(tokenList);
         System.out.println("Result: " + treeGenerator.generate());
 
         return false;

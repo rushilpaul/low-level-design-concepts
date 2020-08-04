@@ -3,10 +3,7 @@ package assignment1.parser.operators.relational;
 import assignment1.parser.operands.BooleanOp;
 import assignment1.parser.operands.Operand;
 
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 public class GreaterThanOperator extends RelationalOperator {
 

@@ -1,5 +1,6 @@
 package assignment1.parser.operators.logical;
 
+import assignment1.parser.operands.DataType;
 import assignment1.parser.operands.Operand;
 import assignment1.parser.operators.Operator;
 
@@ -19,6 +20,11 @@ public abstract class LogicalOperator extends Operator {
         if(operands.size() != 2) {
             throw new RuntimeException("Incorrect number of operands for " + getClass().getName());
         }
+    }
+
+    @Override
+    protected boolean canOperate() {
+        return operands.get(0).getDataType() == DataType.BOOLEAN && operands.get(1).getDataType() == DataType.BOOLEAN;
     }
 
     protected Operand firstOperand() {

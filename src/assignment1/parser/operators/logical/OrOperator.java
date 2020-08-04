@@ -25,11 +25,6 @@ public class OrOperator extends LogicalOperator {
     }
 
     @Override
-    protected boolean canOperate() {
-        return operands.get(0).getDataType() == DataType.BOOLEAN && operands.get(1).getDataType() == DataType.BOOLEAN;
-    }
-
-    @Override
     public String stringRepresentation() {
         return "or";
     }
