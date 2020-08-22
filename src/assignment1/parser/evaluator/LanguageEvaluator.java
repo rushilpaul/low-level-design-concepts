@@ -48,17 +48,17 @@ public class LanguageEvaluator {
 
     public Operand compositeBooleanExpr() throws InvalidKeyException, UnsupportedDataTypeException {
 
-        Operand result = simpleBooleanExpr();
+        Operand compositeBoolExpressionValue = simpleBooleanExpr();
 
         while(tokenDetectionStrategy.isLogicalOperator(getToken())) {
             LogicalOperator operator = logicalOperator();
-            Operand nextBooleanExpr = simpleBooleanExpr();
+            Operand nextSimpleBooleanExpr = simpleBooleanExpr();
 
-            operator.addOperand(result);
-            operator.addOperand(nextBooleanExpr);
-            result = operator.evaluate();
+            operator.addOperand(compositeBoolExpressionValue);
+            operator.addOperand(nextSimpleBooleanExpr);
+            compositeBoolExpressionValue = operator.evaluate();
         }
-        return result;
+        return compositeBoolExpressionValue;
     }
 
     public Operand simpleBooleanExpr() throws InvalidKeyException, UnsupportedDataTypeException {
