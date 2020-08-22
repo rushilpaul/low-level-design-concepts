@@ -40,7 +40,7 @@ public class LexicalScanner {
                 break;
 
             } else if(Character.isDigit(currentChar)) {
-                token = new Token(getInteger(), NUMBER);
+                token = new Token(Integer.parseInt(getInteger()), NUMBER);
 
             } else if(currentChar == '"') {
                 token = new Token(getStringConstant(), STRING_CONST);
@@ -169,13 +169,14 @@ public class LexicalScanner {
      * Assumes the current character is a digit
      * @return an integer
      */
-    private Integer getInteger() {
+    private String getInteger() {
 
-        Integer number = getDigit();
+        StringBuffer number = new StringBuffer();
+        number.append(getDigit());
         // Keep accumulating more digits only if the current char is a digit
         if(Character.isDigit(getChar()))
-            number = Integer.parseInt(number + String.valueOf(getInteger()));
-        return number;
+            number.append(getInteger());
+        return number.toString();
     }
 
     private Character getLetter() {
