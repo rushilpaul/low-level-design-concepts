@@ -27,7 +27,7 @@ public class Client {
         dataMap.put("isGovernmentEmployee", true);
         Map<String, Object> locationMap = new HashMap<>();
         locationMap.put("name", "India");
-        locationMap.put("population", 10000);
+        locationMap.put("population", 10);
         dataMap.put("country", locationMap);
     }
 }

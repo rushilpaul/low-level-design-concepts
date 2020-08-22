@@ -26,8 +26,7 @@ public class FeatureGate {
         printTokenList(tokenList);  // only for debugging purposes
 
         TokenDetectionStrategy tokenDetectionStrategy = new TokenDetectionStrategy();
-        AttributeExtractor attributeExtractor = new AttributeExtractor(userAttributes);
-        LanguageEvaluator parser = new LanguageEvaluator(tokenList, tokenDetectionStrategy, attributeExtractor);
+        LanguageEvaluator parser = new LanguageEvaluator(tokenList, tokenDetectionStrategy, userAttributes);
 
         Operand result;
         try {

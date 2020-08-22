@@ -10,14 +10,7 @@ import java.util.Map;
  */
 public class AttributeExtractor {
 
-    private Map<String, Object> dataMap;
     public static final String KEY_SEPARATOR = "\\.";
-
-    public AttributeExtractor(Map<String, Object> dataMap) {
-        if(dataMap == null)
-            throw new IllegalArgumentException("Data Map cannot be null");
-        this.dataMap = dataMap;
-    }
 
     /**
      * @param dotSeparatedKey A (dot delimited) key (e.g. "user.location.city")
@@ -25,7 +18,10 @@ public class AttributeExtractor {
      * @throws InvalidKeyException if the dotted key is invalid (individual key parts should not be empty)
      * @throws UnsupportedDataTypeException if a data type apart from Integer, Boolean, String is encountered
      */
-    public Object getPrimitiveValue(String dotSeparatedKey) throws InvalidKeyException, UnsupportedDataTypeException {
+    public Object getPrimitiveValue(Map<String, Object> dataMap, String dotSeparatedKey) throws InvalidKeyException, UnsupportedDataTypeException {
+
+        if(dataMap == null)
+            throw new IllegalArgumentException("Data Map cannot be null");
 
         String keyParts[] = getKeyParts(dotSeparatedKey);
         Map currentNode = dataMap;
@@ -56,7 +52,7 @@ public class AttributeExtractor {
 
     private String[] getKeyParts(String dottedKey) throws InvalidKeyException {
 
-        String keyParts[] = null;
+        String keyParts[];
         try {
             keyParts = dottedKey.split(KEY_SEPARATOR);
         } catch (Exception ex) {

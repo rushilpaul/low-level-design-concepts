@@ -14,19 +14,20 @@ import assignment1.parser.operators.misc.BetweenOperator;
 import assignment1.parser.operators.relational.RelationalOperator;
 
 import java.util.List;
+import java.util.Map;
 
 public class LanguageEvaluator {
 
     private int currentPos = 0;
+
     private List<Token> tokens;
-
     private TokenDetectionStrategy tokenDetectionStrategy;
-    private AttributeExtractor attributeExtractor;
+    private Map<String, Object> dataMap;
 
-    public LanguageEvaluator(List<Token> tokens, TokenDetectionStrategy tokenDetectionStrategy, AttributeExtractor attributeExtractor) {
+    public LanguageEvaluator(List<Token> tokens, TokenDetectionStrategy tokenDetectionStrategy, Map<String, Object> dataMap) {
         this.tokens = tokens;
         this.tokenDetectionStrategy = tokenDetectionStrategy;
-        this.attributeExtractor = attributeExtractor;
+        this.dataMap = dataMap;
     }
 
     /**
@@ -84,7 +85,7 @@ public class LanguageEvaluator {
             return BooleanOp.of(getTokenAndNext().toString());
 
         else if(tokenDetectionStrategy.isVariable(lookAhead))
-            return new UserVariableOp(attributeExtractor, (String) getTokenAndNext().getValue());
+            return new UserVariableOp(dataMap, (String) getTokenAndNext().getValue());
 
         else if(lookAhead.tokenType() == TokenType.STRING_CONST) {
             return StringOp.of(getTokenAndNext().toString());
