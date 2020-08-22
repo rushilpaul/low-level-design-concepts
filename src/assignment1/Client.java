@@ -7,7 +7,7 @@ public class Client {
 
     public static void main(String args[]) {
 
-        FeatureGate featureGate = new FeatureGate();
+        FeatureGate featureGate = FeatureGate.basicFeatureGate();
 
         String condition = "( (between (age, minimumAge, max_age) and country.name == \"India\") and isGovernmentEmployee == true) or country.population >= 100";
         Map<String, Object> attributeMap = new HashMap<>();

@@ -8,6 +8,9 @@ import java.util.List;
 
 import static assignment1.parser.lexical.TokenType.*;
 
+/**
+ * Known issues: Stateful class
+ */
 public class LexicalScanner {
 
     private int currentPos;
@@ -15,14 +18,18 @@ public class LexicalScanner {
     private String[] validOperators = { "<", ">", "<=", ">=", "AND", "OR", "BETWEEN" };
     private static final Character EOF = '$';
 
-    public LexicalScanner(String expression) {
+    private void init(String expression) {
+
+        if(expression == null)
+            throw new NullPointerException("Input expression cannot be null");
         this.expression = (expression + EOF).toCharArray();
         currentPos = 0;
     }
 
-    public List<Token> tokenize() {
+    public List<Token> tokenize(String expression) {
 
         List<Token> tokens = new ArrayList<>();
+        init(expression);
 
         // start parsing
         while(true) {

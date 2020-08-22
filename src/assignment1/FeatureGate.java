@@ -15,17 +15,23 @@ import java.util.stream.Collectors;
 
 public class FeatureGate {
 
-    public FeatureGate() {
+    private LexicalScanner lexicalScanner;
+    private TokenDetectionStrategy tokenDetectionStrategy;
 
+    private FeatureGate() { }
+
+    public static FeatureGate basicFeatureGate() {
+        FeatureGate featureGate = new FeatureGate();
+        featureGate.setLexicalScanner(new LexicalScanner());
+        featureGate.setTokenDetectionStrategy(new TokenDetectionStrategy());
+        return featureGate;
     }
 
     public boolean isAllowed(String conditionalExpr, String featureName, Map<String, Object> userAttributes) {
 
-        LexicalScanner lexicalScanner = new LexicalScanner(conditionalExpr);
-        List<Token> tokenList = lexicalScanner.tokenize();
+        List<Token> tokenList = lexicalScanner.tokenize(conditionalExpr);
         printTokenList(tokenList);  // only for debugging purposes
 
-        TokenDetectionStrategy tokenDetectionStrategy = new TokenDetectionStrategy();
         LanguageEvaluator parser = new LanguageEvaluator(tokenList, tokenDetectionStrategy, userAttributes);
 
         Operand result;
@@ -48,5 +54,13 @@ public class FeatureGate {
 
         String printableList = "[" + String.join(" ", tokens.stream().map(token -> token.toString()).collect(Collectors.toList())) + "]";
         System.out.println("[DEBUG] Token list generated: " + printableList);
+    }
+
+    public void setLexicalScanner(LexicalScanner lexicalScanner) {
+        this.lexicalScanner = lexicalScanner;
+    }
+
+    public void setTokenDetectionStrategy(TokenDetectionStrategy tokenDetectionStrategy) {
+        this.tokenDetectionStrategy = tokenDetectionStrategy;
     }
 }
