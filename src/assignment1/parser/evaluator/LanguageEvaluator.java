@@ -87,9 +87,8 @@ public class LanguageEvaluator {
         else if(tokenDetectionStrategy.isVariable(lookAhead))
             return new UserVariableOp(dataMap, (String) getTokenAndNext().getValue());
 
-        else if(lookAhead.tokenType() == TokenType.STRING_CONST) {
+        else if(lookAhead.tokenType() == TokenType.STRING_CONST)
             return StringOp.of(getTokenAndNext().toString());
-        }
 
         else if(lookAhead.tokenType() == TokenType.PARENTHESIS_OPEN) {
 
@@ -102,9 +101,9 @@ public class LanguageEvaluator {
 
             return middleExpression;
 
-        } else if(tokenDetectionStrategy.isBetweenOperator(lookAhead)) {
+        } else if(tokenDetectionStrategy.isBetweenOperator(lookAhead))
             return betweenOperator();
-        }
+
         throw new SyntaxException("Expected a variable, boolean, integer or string", currentPos);
     }
 
