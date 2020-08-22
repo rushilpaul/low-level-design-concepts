@@ -1,7 +1,6 @@
 package assignment1.parser.evaluator;
 
 import assignment1.parser.TokenDetectionStrategy;
-import assignment1.parser.data.AttributeExtractor;
 import assignment1.parser.exceptions.InvalidKeyException;
 import assignment1.parser.exceptions.SyntaxException;
 import assignment1.parser.exceptions.UnsupportedDataTypeException;
@@ -16,6 +15,9 @@ import assignment1.parser.operators.relational.RelationalOperator;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Most private methods here correspond to terminals and non-terminals used in grammar
+ */
 public class LanguageEvaluator {
 
     private int currentPos = 0;
@@ -38,7 +40,7 @@ public class LanguageEvaluator {
         return expression();
     }
 
-    public Operand expression() throws InvalidKeyException, UnsupportedDataTypeException {
+    private Operand expression() throws InvalidKeyException, UnsupportedDataTypeException {
 
         Operand operand = compositeBooleanExpr();
         if(getToken().tokenType() != TokenType.END_OF_INPUT)
@@ -46,7 +48,7 @@ public class LanguageEvaluator {
         return operand;
     }
 
-    public Operand compositeBooleanExpr() throws InvalidKeyException, UnsupportedDataTypeException {
+    private Operand compositeBooleanExpr() throws InvalidKeyException, UnsupportedDataTypeException {
 
         Operand compositeBoolExpressionValue = simpleBooleanExpr();
 
@@ -61,7 +63,7 @@ public class LanguageEvaluator {
         return compositeBoolExpressionValue;
     }
 
-    public Operand simpleBooleanExpr() throws InvalidKeyException, UnsupportedDataTypeException {
+    private Operand simpleBooleanExpr() throws InvalidKeyException, UnsupportedDataTypeException {
 
         Operand leftTerm = term();
         if(tokenDetectionStrategy.isRelationalOperator(getToken())) {
@@ -75,7 +77,7 @@ public class LanguageEvaluator {
         return leftTerm;
     }
 
-    public Operand term() throws InvalidKeyException, UnsupportedDataTypeException {
+    private Operand term() throws InvalidKeyException, UnsupportedDataTypeException {
 
         Token lookAhead = getToken();
         if(tokenDetectionStrategy.isInteger(lookAhead))
@@ -156,6 +158,8 @@ public class LanguageEvaluator {
     private BooleanOp booleanConst() {
         return BooleanOp.of(getTokenAndNext().toString());
     }
+
+    // Below methods are used for fetching the next tokens from the stream (TODO: improved this)
 
     private Token getTokenAndNext() {
         return tokens.get(currentPos++);
