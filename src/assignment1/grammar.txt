@@ -1,0 +1,32 @@
+
+Grammar:
+
+expr -> compositeBooleanExpr $
+compositeBooleanExpr -> simpleBooleanExpr (logicalOp simpleBooleanExpr) *
+
+simpleBooleanExpr -> term [relationalOp term]
+
+term -> booleanConst | integer | nestedVariable | stringConst | betweenOp | '(' compositeBooleanExpr ')'
+
+booleanConst -> true | false
+stringConst -> '"' any_char '"'
+variable -> ('_') letter (string) *
+nestedVariable -> variable (.variable) *
+string -> (alphanumeric | '_' ) (string) *
+alphanumeric -> letter | digit
+integer -> digit[integer]
+letter -> a-z
+digit -> 0-9
+space -> [ \t\n]+
+comma -> ,
+
+logicalOp -> 'and' | 'or'
+relationalOp -> '>=' | '>' | '<=' | '<' | '==' | '!='
+betweenOp -> 'between' '(' (variable | integer) ',' term ',' term ')'
+
+Examples:
+
+(a != b) and c == true
+a == between(x,a,b)
+
+(age >= 25 and (location.city == "India"))
