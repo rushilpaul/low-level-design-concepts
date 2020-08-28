@@ -9,5 +9,5 @@ public interface IEventRepository {
 
     Collection<Event> getEvents(String genre, PriceRange priceRange);
 
-    void updateEvents(Collection<Event> events);
+    void updateOrInsertEvents(Collection<Event> events);
 }

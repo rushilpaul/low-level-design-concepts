@@ -31,7 +31,7 @@ public class EventService {
     public boolean addOrUpdateEvents(List<Event> eventList) {
 
         try {
-            eventRepository.updateEvents(eventList);
+            eventRepository.updateOrInsertEvents(eventList);
             return true;
         } catch (Exception ex) {
             return false;

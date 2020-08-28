@@ -45,7 +45,7 @@ public class EventRepository implements IEventRepository {
      * Upsert events
      * @param events
      */
-    public void updateEvents(Collection<Event> events) {
+    public void updateOrInsertEvents(Collection<Event> events) {
 
         Stream<Event> stream = events.size() < 1e5 ? events.stream() : events.parallelStream();
         stream.forEach(initializeIfAbsent);
