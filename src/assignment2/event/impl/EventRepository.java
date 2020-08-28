@@ -29,7 +29,7 @@ public class EventRepository implements IEventRepository {
 
         if(genre != null) {
             if(!eventShardByGenre.containsKey(genre))
-                throw new RuntimeException("Genre " + genre + " does not exist");
+                return new HashSet<>();
             relevantShards.add(eventShardByGenre.get(genre));
         }
         else
