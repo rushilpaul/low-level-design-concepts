@@ -1,12 +1,11 @@
 package assignment2;
 
-import assignment2.event.EventRepository;
+import assignment2.event.impl.EventRepository;
 import assignment2.model.Event;
 import assignment2.service.EventService;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 public class Tester {
 

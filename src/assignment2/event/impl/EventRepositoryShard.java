@@ -1,4 +1,4 @@
-package assignment2.event;
+package assignment2.event.impl;
 
 import assignment2.model.Event;
 import assignment2.model.PriceRange;

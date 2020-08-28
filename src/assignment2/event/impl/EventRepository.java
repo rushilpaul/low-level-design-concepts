@@ -1,12 +1,12 @@
-package assignment2.event;
+package assignment2.event.impl;
 
+import assignment2.event.IEventRepository;
 import assignment2.model.Event;
 import assignment2.model.PriceRange;
 
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;

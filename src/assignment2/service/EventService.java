@@ -1,7 +1,7 @@
 package assignment2.service;
 
 import assignment2.Filter;
-import assignment2.event.EventRepository;
+import assignment2.event.impl.EventRepository;
 import assignment2.model.Event;
 
 import java.util.Collection;
