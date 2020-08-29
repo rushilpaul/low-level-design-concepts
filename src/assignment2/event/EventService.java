@@ -1,6 +1,7 @@
-package assignment2.service;
+package assignment2.event;
 
 import assignment2.Filter;
+import assignment2.event.IEventRepository;
 import assignment2.event.impl.EventRepository;
 import assignment2.model.Event;
 
@@ -11,7 +12,7 @@ import java.util.stream.Stream;
 
 public class EventService {
 
-    private EventRepository eventRepository;
+    private IEventRepository eventRepository;
 
     public EventService(EventRepository eventRepository) {
         this.eventRepository = eventRepository;
@@ -31,10 +32,14 @@ public class EventService {
     public boolean addOrUpdateEvents(List<Event> eventList) {
 
         try {
-            eventRepository.updateOrInsertEvents(eventList);
+            eventRepository.save(eventList);
             return true;
         } catch (Exception ex) {
             return false;
         }
+    }
+
+    public Event getEvent(Long eventId) {
+        return eventRepository.getById(eventId);
     }
 }

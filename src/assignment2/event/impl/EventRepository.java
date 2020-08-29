@@ -20,6 +20,8 @@ public class EventRepository implements IEventRepository {
 
     private Map<String, EventRepositoryShard> eventShardByGenre = new ConcurrentHashMap<>();
 
+    private Map<Long, Event> eventById = new ConcurrentHashMap<>();
+
     // Atomic operation
     private Consumer<Event> initializeIfAbsent = event -> eventShardByGenre.computeIfAbsent(event.getGenre(), (i) -> new EventRepositoryShard());
 
@@ -41,11 +43,16 @@ public class EventRepository implements IEventRepository {
                 .collect(Collectors.toSet());
     }
 
+    @Override
+    public Event getById(Long eventId) {
+        return eventById.get(eventId);
+    }
+
     /**
      * Upsert events
      * @param events
      */
-    public void updateOrInsertEvents(Collection<Event> events) {
+    public void save(Collection<Event> events) {
 
         Stream<Event> stream = events.size() < 1e5 ? events.stream() : events.parallelStream();
         stream.forEach(initializeIfAbsent);
@@ -56,13 +63,19 @@ public class EventRepository implements IEventRepository {
     private void removeEvents(Collection<Event> events) {
 
         Stream<Event> stream = events.size() < 1e5 ? events.stream() : events.parallelStream();
-        stream.forEach(event -> eventShardByGenre.get(event.getGenre()).removeEvent(event));
+        stream.forEach(event -> {
+            eventShardByGenre.get(event.getGenre()).removeEvent(event);
+            eventById.remove(event.getEventId());
+        });
     }
 
     private void addEvents(Collection<Event> events) {
 
         Stream<Event> stream = events.size() < 1e5 ? events.stream() : events.parallelStream();
-        stream.forEach(event -> eventShardByGenre.get(event.getGenre()).addEvent(event));
+        stream.forEach(event -> {
+            eventShardByGenre.get(event.getGenre()).addEvent(event);
+            eventById.put(event.getEventId(), event);
+        });
     }
 
 }
